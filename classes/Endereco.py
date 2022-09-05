@@ -47,6 +47,10 @@ class Endereco:
         # continuam existindo variaveis locais, nem tudo é propriedade de objeto
 
         # end point da API de consulta ao cep
+        cep = str(cep)
+        if len(cep) != 8:
+            return False
+
         url_api = f'https://viacep.com.br/ws/{str(cep)}/json/'
 
         # Sem corpo na requisição
@@ -59,8 +63,15 @@ class Endereco:
 
         # converte a resposta json em dict
         json_resp = response.json()
-        return json_resp
+
+        if 'erro' in json_resp:
+            return False
+        else:
+            return json_resp
 
 
-
-
+    def __str__(self):
+        return f'{self.rua} - {self.estado} - {self.cidade} - {self.numero} - {self.complemento} - {self.cep}'
+    
+    def __repr__(self):
+        return f'{self.rua} - {self.estado} - {self.cidade} - {self.numero} - {self.complemento} - {self.cep}'
